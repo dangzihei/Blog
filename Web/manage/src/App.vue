@@ -9,13 +9,17 @@
   </div>
 </template>
 <script>
-import {faBu} from './tool/tool'
+import {faBu,del,getAllArticle,changeArticle,searchArticle} from './tool/tool'
 export default {
   mounted() {
   },
   methods:{
     hhh(){
-      faBu()
+      // faBu()
+      // del()
+      // getAllArticle()
+      // changeArticle()
+      searchArticle()
     }
   }
 }
