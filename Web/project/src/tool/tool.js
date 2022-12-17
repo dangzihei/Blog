@@ -1,17 +1,8 @@
 import axios from 'axios';
 
+// 发布新文章 time title content type
 export const faBu = () => {
     console.log('fabu执行了')
-    // axios({
-    //     method: 'post',
-    //     url: 'http://127.0.0.1:5000/newArticle',
-    //     params: {
-    //         time:'Fred',
-    //         lastName: 'jjj'
-    //       },
-    // }).then(res=>{
-    //     console.log(res)
-    // }).catch(err=>console.log(err));
     axios.post('http://127.0.0.1:5000/article', {
         time: '今天',
         title: '第二个文章',
@@ -22,7 +13,7 @@ export const faBu = () => {
     }).catch(err => console.log(err));
 }
 
-
+// 删除 title
 export const del = () => {
     console.log('del执行了')
     axios.delete('http://127.0.0.1:5000/article', {
@@ -34,6 +25,7 @@ export const del = () => {
     }).catch(err => console.log(err));
 }
 
+// 获取全部
 export const getAllArticle = () => {
     console.log('getAllArticle执行了')
     axios.get('http://127.0.0.1:5000/article').then(res => {
@@ -41,7 +33,7 @@ export const getAllArticle = () => {
     }).catch(err => console.log(err));
 }
 
-// 传入一个id，根据id进行修改
+// 根据id 进行修改
 export const changeArticle = () => {
     console.log('changeArticle执行了')
     axios.post('http://127.0.0.1:5000/newArticle',{
@@ -53,7 +45,7 @@ export const changeArticle = () => {
     }).catch(err => console.log(err));
 }
 
-// 传入一个id，根据id进行修改
+// 搜索  
 export const searchArticle = () => {
     console.log('searchArticle执行了')
     axios.get('http://127.0.0.1:5000/search',{
