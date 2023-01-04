@@ -1,13 +1,33 @@
 import axios from 'axios';
 
-// 发布新文章 time title content type
+// 登录请求
+export const LoginFun = (params)=>{
+    console.log(params)
+    return axios.get('http://127.0.0.1:5000/login',{
+        params
+    }).then(res => {
+        return res;
+    }).catch(err => console.log(err));
+}
+
+// 修改密码
+export const changeAccOrPwd = (params)=>{
+    return axios.post('http://127.0.0.1:5000/login',params).then(res => {
+        return res;
+    }).catch(err => console.log(err));
+}
+
+
+// 发布新文章 time title content type introduce tag
 export const faBu = () => {
     console.log('fabu执行了')
     axios.post('http://127.0.0.1:5000/article', {
         time: '今天',
-        title: '第二个文章',
+        title: '第er个文章',
         content:'html',
-        type:'vue2'
+        type:'vue2',
+        introduce:'这个是介绍',
+        tag:['1','2']
     }).then(res => {
         console.log(res)
     }).catch(err => console.log(err));
@@ -28,8 +48,8 @@ export const del = () => {
 // 获取全部
 export const getAllArticle = () => {
     console.log('getAllArticle执行了')
-    axios.get('http://127.0.0.1:5000/article').then(res => {
-        console.log(res)
+    return axios.get('http://127.0.0.1:5000/article').then(res => {
+        return res;
     }).catch(err => console.log(err));
 }
 

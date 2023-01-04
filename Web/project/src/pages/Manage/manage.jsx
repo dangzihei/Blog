@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import styles from './manage.module.css'
 
 
-console.log(styles);
+// console.log(styles);
 
 class Home extends Component {
     constructor(props) {

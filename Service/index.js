@@ -1,7 +1,9 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require("body-parser");
+const { fstat } = require('fs');
 var app = express();
+var fs = require('fs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -30,6 +32,62 @@ let sqlObj = mysql.createConnection(option)
 sqlObj.connect(function (err) {
     console.log(!!err)
 })
+
+
+
+
+// 登录密码
+app.get('/login', (req, res) => {
+    console.log(req.query.account, req.query.password, '00000000000000000000000000')
+    fs.readFile('./account.env', (err, data) => {
+        console.log(!err && (data.toString() == req.query.account),data.toString() == req.query.account, '11')
+        if (!err && (data.toString() == req.query.account)) {
+            fs.readFile('./password.env', (err, data) => {
+                console.log(!err && (data.toString() == req.query.password),data.toString() == req.query.password, '22')
+                if (!err && (data.toString() == req.query.password)) {
+                    res.status(200).json({
+                        message: '登录成功!'
+                    })
+                } else {
+                    res.status(403).json({
+                        message: '您输入密码有误!'
+                    })
+                }
+            })
+        } else {
+            res.status(403).json({
+                message: '您输入账号有误!'
+            })
+        }
+    })
+
+})
+
+// 修改密码
+app.post('/login', (req, res) => {
+    console.log(req.body)
+    fs.writeFile('./account.env', `${req.body.account}`, err => {
+        if (!err) {
+            fs.writeFile('./password.env', `${req.body.password}`, err => {
+                if (!err) {
+                    res.status(200).json({
+                        message: '修改成功!'
+                    })
+                } else {
+                    res.status(500).json({
+                        message: '账号设置成功,设置密码出错,请重试!'
+                    })
+                }
+            })
+        } else {
+            res.status(500).json({
+                message: '修改出错,请重试!'
+            })
+        }
+    })
+})
+
+
 //定义接口
 // 发表文章  [time,title,content,type]
 app.post('/article', (req, res) => {
@@ -51,9 +109,12 @@ app.post('/article', (req, res) => {
             } else {
                 // 查询是否与以前的文章名字重复了
                 sqlObj.query(`select * from article where title="${req.body.title}"`, function (err, data) {
+                    console.log(req.body.title, data.length)
                     if (data.length <= 0) {
                         // 插入数据
-                        sqlObj.query(`insert into article (time,title,content,type) values("${req.body.time}","${req.body.title}","${req.body.content}","${req.body.type}")`)
+                        let sql = `insert into article (time,title,content,type,introduce,tag) values("${req.body.time}","${req.body.title}","${req.body.content}","${req.body.type}","${req.body.introduce}","${req.body.tag}")`
+                        console.log(sql)
+                        sqlObj.query(sql)
                         res.json({
                             code: 200,
                             message: '发布成功'
@@ -144,6 +205,7 @@ app.get('/article', (req, res) => {
     )
 })
 
+
 // 修改文章
 app.post('/newArticle', (req, res) => {
     let sqlObj = mysql.createConnection(option)
@@ -155,7 +217,7 @@ app.post('/newArticle', (req, res) => {
             })
         } else {
             sqlObj.query(`select * from article where id = ${req.body.id}`, function (err, data) {
-                console.log(data,req.body)
+                console.log(data, req.body)
                 if (data.length <= 0) {
                     res.status(500).json({
                         "data": '无此文章'
@@ -164,8 +226,8 @@ app.post('/newArticle', (req, res) => {
                     (() => {
                         for (const key in req.body) {
                             if (key != 'id') {
-                                console.log(req.body.id,key,req.body[key])
-                                sqlObj.query(`update article set ${key} = "${req.body[key]}" where ID = ${req.body.id}`,function (err) {
+                                console.log(req.body.id, key, req.body[key])
+                                sqlObj.query(`update article set ${key} = "${req.body[key]}" where ID = ${req.body.id}`, function (err) {
                                     console.log(err)
                                 })
                             }
