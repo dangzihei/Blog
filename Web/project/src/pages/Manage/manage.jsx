@@ -1,23 +1,33 @@
-import React, { Component } from "react"
+import React from 'react';
 import styles from './manage.module.css'
+import { Layout } from 'antd';
+import { ToTopOutlined } from '@ant-design/icons';
+import { Button, Tooltip, Space } from 'antd';
+import Aside from '../../components/aside/aside'
+import { NavLink,Outlet } from "react-router-dom";
 
-
-// console.log(styles);
-
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
-    render() {
-
-        return (
-            <div className={styles.manage}>
-                后台管理页面
-            </div>
-        )
-    }
+function Manage() {
+    return (
+        <div className={styles.manage}>
+            <nav className={styles.nav}>
+                <p>
+                    后台管理系统
+                </p>
+                <Button type="dashed" icon={<ToTopOutlined />}>
+                    发布新文章
+                </Button>
+            </nav>
+            <section className={styles.section}>
+                <div className={styles.aside}>
+                    <Aside></Aside>
+                </div>
+                <main className={styles.main}>
+                    <Outlet></Outlet>
+                </main>
+            </section>
+        </div>
+    );
 }
-export default Home;
+
+export default Manage;
+

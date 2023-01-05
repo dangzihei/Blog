@@ -3,7 +3,6 @@ import styles from './login.module.css'
 import { NavLink } from "react-router-dom";
 import { changeAccOrPwd, LoginFun } from '../../tool/api'
 import withRouter from '../../tool/withRouter'
-
 import { Button, Checkbox, Form, Input } from 'antd';
 // console.log(styles);
 
@@ -36,10 +35,8 @@ class Login extends Component {
             account:values.username,
             password:values.password
         });
-        console.log(res)
         if (res.status&&(res.status == 200)) {
-            console.log(this.props)
-            // navigator('/manage')
+            this.props.navigate('/manage')
         }
     };
     onFinishFailed = (errorInfo) => {

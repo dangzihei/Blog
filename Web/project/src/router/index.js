@@ -8,18 +8,26 @@ import { BrowserRouter as Router,Route,Routes,useLocation ,Navigate} from "react
 import Manage from '../pages/Manage/manage.jsx';
 import Main from "../pages/Main/main.jsx";
 import Login from "../pages/Login/login";
-// import Page404 from "../pages/Page404/Page404.jsx";
- 
+import ArticleManage from '../pages/Article/Article.jsx'
+import TagManage from '../pages/Tag/Tag.jsx'
+import Show from '../pages/Show/Show.jsx'
+import Publish from "../pages/Publish/Publish.jsx";
 // 导出路由组件 作为页面的出口组件
 export default function Index(){
-    console.log(useLocation(),'111')
+    // console.log(useLocation(),'111')
     return (
         <div>
             <Routes>
                 {/* path：路由地址  element对应的式路由页面*/}
                 <Route path="/" element={<Main/>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
-                <Route path="/manage" element={<Manage/>}></Route>
+                <Route path="/publish" element={<Publish/>}></Route>
+                <Route path="/show" element={<Show/>}></Route>
+                <Route path="/manage" element={<Manage/>}>
+                    <Route index element={<ArticleManage/>}></Route>
+                    <Route path="tag" element={<TagManage/>}></Route>
+
+                </Route>
 
                 {/* 404界面，所有的路由界面都能匹配的界面 */}
                 <Route path="*" element={<Navigate to="/" replace/>}></Route>

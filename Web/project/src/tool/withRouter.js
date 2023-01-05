@@ -1,13 +1,12 @@
 import { useLocation,useParams,useNavigate } from "react-router-dom"
-
-function withRouter(OldCom) {
-    const navigate = useNavigate();
-    const params = useParams();
-    const location = useLocation();
-
+function withRouter (Child) {
     return (props)=>{
-        return <OldCom {...props} navigate={navigate} params={params} location={location}></OldCom>
+        const location = useLocation()
+        const navigate = useNavigate()
+        const params = useParams()
+
+        return <Child  {...props} location={location} navigate={navigate} params={params}> </Child>
     }
 }
 
-export default withRouter;
+export default withRouter ;
